@@ -36,11 +36,6 @@ sock.send(bytes("NICK %s\r\n" % nick, "UTF-8"))
 sock.send(bytes("USER %s %s bla : %s\r\n" % (nick, server, nick), "UTF-8"))
 sock.send(bytes("JOIN #orphtest\r\n", "UTF-8"))
 sendmsg("#orphtest", "Hello! I am a bot!")
-#joinchan("#goodjobclub", "gjguys!")
-#sendmsg("#goodjobclub","Good morning, Fyurie!")
-#joinchan("#orpheus", "transmigrationofsouls")
-#sendmsg("#orpheus", "Hello! I am a bot!")
-
 
 readbuffer = ""
 
