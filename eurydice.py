@@ -1,43 +1,64 @@
 # required libraries
 import socket
+import time
+import sys
 
 # constants
 true    = 1
 
 # Bot vars
-server  = "98.252.136.71"
-port    = 1993
+server  = "irc.rizon.net"
+port    = 6667
 channel = "#orpheus"
 nick    = "Eurydice"
 pword   = "lyric"
 
 def ping ():
-    global ircsock
-    ircsock.send ("PONG : ping\n")
+    sock.send (b"PONG : ping\n")
 
 def sendmsg (chan, msg):
-    global ircsock
-    ircsock.send ("PRIVMSG " + chan + " :" + msg + "\n")
+    sock.send(("PRIVMSG " + chan + " :" + msg + "\n").encode())
 
-def joinchan (chan):
-    global ircsock
-    ircsock.send ("JOIN " + chan + "\n")
+def joinchan (chan, password):
+    sock.send(bytes("JOIN %s %s\r\n" % (chan, password), "UTF-8"))
+    
+def sendnick (nick):
+    sock.send(bytes("NICK %s\r\n" % nick,"UTF-8"))
+    
+def sendpass (password):
+    sock.send(bytes("PRIVMSG NickServ IDENTIFY %s\r\n" % password, "UTF-8"))
 
-def Main():
-    global ircsock
 
-    ircsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((server, port))
 
-    ircsock.connect((server, port))
+sock.send(bytes("NICK %s\r\n" % nick, "UTF-8"))
+sock.send(bytes("USER %s %s bla : %s\r\n" % (nick, server, nick), "UTF-8"))
+sock.send(bytes("JOIN #orphtest\r\n", "UTF-8"))
+sendmsg("#orphtest", "Hello! I am a bot!")
+#joinchan("#goodjobclub", "gjguys!")
+#sendmsg("#goodjobclub","Good morning, Fyurie!")
+#joinchan("#orpheus", "transmigrationofsouls")
+#sendmsg("#orpheus", "Hello! I am a bot!")
 
-    ircsock.send ("USER " + "Eurydice" + " 2 3 " + "Eurydice" + "\n")
-    ircsock.send ("NICK" + nick + "\n")
-    ircsock.send("QUERY AUTH PASS " + nick + ":" + pword) 
-    joinchan ("#orpheus")
-    while true:
 
-        ircmsg = ircsock.recv(2048)
-        ircmsg = ircmsg.strip('\n\r')
-        print ircmsg
-Main()
-exit (0)
+readbuffer = ""
+
+while true:
+    #time.sleep(5)
+    readbuffer = sock.recv(1024).decode("UTF-8")
+    print(readbuffer)
+    temp = str.split(readbuffer, "\n")
+    readbuffer = temp.pop()
+    
+    for line in temp:
+        line = str.rstrip(line)
+        line = str.split(line)
+        
+        if(line[0] == "PING"):
+            sock.send(bytes("PONG %s\r\n" % line[1], "UTF-8"))
+        for index, i in enumerate(line):
+            #print(*line)
+            if(".quit" in line[index]):
+                print("Found quit command at %s" % index)
+                sys.exit()
