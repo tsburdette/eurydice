@@ -2,6 +2,7 @@
 import socket
 import time
 import sys
+import Queue
 
 # constants
 true    = 1
@@ -17,48 +18,44 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((server, port))
 
 def ping (key):
-    sock.send("PONG : " + key + "\r\n")
+    return "PONG : %s + key + \r\n" % key
 
 def sendmsg (chan, msg):
-    sock.send("PRIVMSG " + chan + " :" + msg + "\r\n")
+    return "PRIVMSG %s : %s \r\n" % (chan, msg)
 
 def joinchan (chan, password):
-    sock.send("JOIN " + chan + " " + password + "\r\n")
+    return "JOIN %s %s \r\n" % (chan, password)
 
 def senduser ():
-    sock.send("USER %s %s bla :%s\r\n" % (nick, server, nick))
+    return "USER %s %s bla :%s\r\n" % (nick, server, nick)
     
 def sendnick ():
-    sock.send("NICK " + nick + "\r\n")
+    return "NICK %s\r\n" % nick
     
 def sendpass (password):
-    sock.send("PRIVMSG NickServ IDENTIFY " + password + "\r\n")
+    return "PRIVMSG NickServ IDENTIFY %s\r\n" % password
 
+rQueue = Queue.Queue()
+sQueue = Queue.Queue()
 
-
-
-senduser()
-sendnick()
-sendpass(pword)
-sock.send("JOIN #orphtest\r\n")
-sendmsg("#orphtest", "Hello! I am a bot!")
+sQueue.put(senduser())
+sQueue.put(sendnick())
+sQueue.put(sendpass(pword))
+sQueue.put("JOIN #orphtest\r\n")
+sQueue.put(sendmsg("#orphtest", "Hello! I am a bot!"))
 
 readbuffer = ""
 
-while true:
-    readbuffer = sock.recv(1024)
-    print(readbuffer)
-    temp = str.split(readbuffer, "\n")
-    readbuffer = temp.pop()
-    
-    for line in temp:
-        line = str.rstrip(line)
-        line = str.split(line)
-        
-        if(line[0] == "PING"):
-            ping(line[1])
-        for index, i in enumerate(line):
-            #print(*line)
-            if(".quit" in line[index]):
-                print("Found quit command at %s" % index)
-                sys.exit()
+while True:
+    readbuffer = sock.recv(2048)
+    temp = str.split(str.strip(readbuffer), "\r\n")
+    rQueue.put(temp.pop())
+    while (not rQueue.empty()):
+        rx = rQueue.get()
+        print rx
+        rx = str.split(str.rstrip(rx))
+        if (rx[0] == "PING"):
+            print "Pinged!"
+            sock.send(ping(rx[1]))
+    if (not sQueue.empty()):
+        sock.send(sQueue.get())
