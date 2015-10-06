@@ -42,11 +42,6 @@ sendnick()
 sendpass(pword)
 sock.send("JOIN #orphtest\r\n")
 sendmsg("#orphtest", "Hello! I am a bot!")
-#joinchan("#goodjobclub", "gjguys!")
-#sendmsg("#goodjobclub","Good morning, Fyurie!")
-#joinchan("#orpheus", "transmigrationofsouls")
-#sendmsg("#orpheus", "Hello! I am a bot!")
-
 
 readbuffer = ""
 
