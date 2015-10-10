@@ -29,11 +29,11 @@ class dialogue:
         
     def cmdhelp (self, text):
         print "cmd: " + text
-        if (text == "!help"):
+        if (text == "help"):
             return "You're already using help."
-        elif (text == "!tell"):
+        elif (text == "tell"):
             return "The format for !tell is \'!tell <person> <msg>\'. All undelivered messages will be archived with a hash function so they're more or less private. I do not archive your messages after they have been delivered."
-        elif (text == "!status"):
+        elif (text == "status"):
             return "!status doesn't do what it's supposed to yet, but you can use \'!status <show name>\' for now."
         else:
             return "I don't recognize that command. Make sure you spelled it correctly. For a list of commands, type just \'!help\'."

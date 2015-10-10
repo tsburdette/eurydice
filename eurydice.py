@@ -5,15 +5,13 @@ import sys
 import Queue
 from dialogue import dialogue
 
-# constants
-true    = 1
-
 # Bot vars
-server  = "irc.rizon.net"
-port    = 6667
-channel = "#orpheus"
-nick    = "Eurydice"
-pword   = "lyric"
+server      = "irc.rizon.net"
+port        = 6667
+channel     = "#orpheus"
+nick        = "Eurydice"
+nickpword   = "lyric"
+chanpword   = "transmigrationofsouls"
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((server, port))
@@ -43,8 +41,8 @@ bot = Eurydice()
 
 sQueue.put(bot.senduser())
 sQueue.put(bot.sendnick())
-sQueue.put(bot.sendpass(pword))
-sQueue.put(bot.joinchan("#orphtest",""))
+sQueue.put(bot.sendpass(nickpword))
+sQueue.put(bot.joinchan(channel,chanpword))
 #sQueue.put("JOIN #orpheus transmigrationofsouls\r\n")
 #sQueue.put(bot.sendmsg("#orphtest", "Hello! I am Eurydice, a bot! Say my name!"))
 
