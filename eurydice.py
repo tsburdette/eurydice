@@ -44,8 +44,9 @@ bot = Eurydice()
 sQueue.put(bot.senduser())
 sQueue.put(bot.sendnick())
 sQueue.put(bot.sendpass(pword))
-sQueue.put("JOIN #orphtest\r\n")
-sQueue.put(bot.sendmsg("#orphtest", "Hello! I am Eurydice, a bot! Say my name!"))
+sQueue.put(bot.joinchan("#orphtest",""))
+#sQueue.put("JOIN #orpheus transmigrationofsouls\r\n")
+#sQueue.put(bot.sendmsg("#orphtest", "Hello! I am Eurydice, a bot! Say my name!"))
 
 readbuffer = ""
 
