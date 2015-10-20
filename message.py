@@ -1,10 +1,11 @@
-class message:
-    def __init__ (self, dest, source, text):
-        print "Storing message for " + dest + " from " + source
-        self.dest = dest
-        self.source = source
-        self.text = text
+from datetime import datetime
 
-    def store(self):
-        with open("mailbox.txt", "w") as textfile:
-            textfile.write(self.source + "," + self.dest + "," + self.text + "\n")
+class message:
+    def __init__ (self, source, dest, text):
+        self.source = source
+        self.dest = dest
+        self.text = text
+        self.timestamp = datetime.now()
+
+    def tostring(self):
+        return "<%02d:%02d:%02d> %s: %s" % (self.timestamp.hour, self.timestamp.minute, self.timestamp.second, self.source, self.text)

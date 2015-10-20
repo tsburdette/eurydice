@@ -1,7 +1,8 @@
 import re
+from message import message
 
 class dialogue:
-    cmds = [ "tell", "status", "help" ]
+    cmds = [ "tell", "status", "help", "join", "part" ]
     
     
     def __init__ (self, user, channel, text, bot):
@@ -21,7 +22,10 @@ class dialogue:
             else:
                 return self.bot.sendmsg(self.channel, self.cmdhelp(info[1]))
         if (self.text.find("!tell") == 0):
-            msg = "I don't store mail yet. Sorry!"
+            info = str.split(self.text, ' ', 2)
+            mail = message(self.user, info[1], info[2])
+            #TODO: Store stuff here.
+            msg = "Storing message for " + info[1]
             return self.bot.sendmsg(self.channel, msg)
         if (self.text.find("!status") == 0):
             info = str.split(self.text, ' ', 1)
@@ -56,5 +60,9 @@ class dialogue:
             return "The format for !tell is \'!tell <person> <msg>\'. Undelivered messages are not currently encrypted, but that will be implemented. I do not archive your messages after they have been delivered."
         elif (text == "status"):
             return "!status doesn't do what it's supposed to yet, but you can use \'!status <show name>\' for now."
+        elif (text == "join"):
+            return "The format for !join is \'!join <channel> <password>\'. The password field is optional, and be careful since obviously the string will be visible to my owner, Fomalhaut. I don't encrypt those yet."
+        elif (text == "part"):
+            return "The format for !part is \'!part <channel>\'. I will not recall a password on a rejoin. You'll have to provide it again."
         else:
             return "I don't recognize that command. Make sure you spelled it correctly. For a list of commands, type just \'!help\'."
