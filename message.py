@@ -7,4 +7,4 @@ class message:
 
     def store(self):
         with open("mailbox.txt", "w") as textfile:
-            textfile.write(self.source + " " + self.dest + " " + self.text)
+            textfile.write(self.source + "," + self.dest + "," + self.text + "\n")

@@ -4,6 +4,7 @@ import time
 import sys
 import Queue
 from dialogue import dialogue
+from sets import Set
 
 # Bot vars
 server      = "irc.rizon.net"
@@ -16,14 +17,21 @@ chanpword   = "transmigrationofsouls"
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((server, port))
 class Eurydice:
+    chans = Set()
+
     def ping (self, key):
         return "PONG %s \r\n" % key
 
     def sendmsg (self, chan, msg):
         return "PRIVMSG %s :%s \r\n" % (chan, msg)
 
-    def joinchan (self, chan, password):
+    def joinchan (self, chan, password=""):
+        self.chans.add(chan)
         return "JOIN %s %s \r\n" % (chan, password)
+
+    def partchan (self, chan):
+        self.chans.discard(chan)
+        return "PART %s \r\n" % (chan)
 
     def senduser (self):
         return "USER %s %s bla :%s\r\n" % (nick, server, nick)
