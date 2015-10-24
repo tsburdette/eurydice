@@ -10,7 +10,7 @@ class skeleton:
     chanpword   = "transmigrationofsouls"
 
     chans = Set()
-    mailbag = 
+    mailbag = []
 
     def ping (self, key):
         return "PONG %s \r\n" % key

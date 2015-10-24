@@ -16,7 +16,7 @@ sQueue = Queue.Queue()
 
 sQueue.put(bot.senduser())
 sQueue.put(bot.sendnick())
-sQueue.put(bot.joinchan("#orpheus", "transmigrationofsouls"))
+#sQueue.put(bot.joinchan("#orpheus", "transmigrationofsouls"))
 
 readbuffer = ""
 
