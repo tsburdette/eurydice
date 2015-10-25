@@ -4,7 +4,7 @@ This is an IRC bot written in python. It's really just for me to get a feel for 
 
 ## TODO
 
-- Clean up Eurydice.py. Shit's a mess.
+- Clean up everything. Shit's a mess.
 - Add functionality for 
   - project status
   - notifications when a project is at another person
@@ -13,9 +13,8 @@ This is an IRC bot written in python. It's really just for me to get a feel for 
 
 ## Mailbox Organization
 
-- array of messages stored by destination user in a dictionary
-    - {\'destination\': [\'source\', \'msg\']}
-    - new messages for a user get appended to that user's list
-    - mb[\'destination\'].append(message())
-- Maybe three files instead? Dests, bodies, mappings between the two?
-    - I dunno
+- !tell <user> message
+- TODO:
+    - timezone parsing. Apparently there's a ctcp command for it.
+    - let users know when they have mail
+        - when the JOIN and when they talk in a channel?

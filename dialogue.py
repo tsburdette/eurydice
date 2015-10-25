@@ -1,9 +1,11 @@
 import re
+import pdb
 from message import message
+from mailbag import mailbag
 
 class dialogue:
     cmds = [ "tell", "status", "help", "join", "part" ]
-    
+    sack = mailbag()
     
     def __init__ (self, user, channel, text, bot):
         print text
@@ -24,9 +26,17 @@ class dialogue:
         if (self.text.find("!tell") == 0):
             info = str.split(self.text, ' ', 2)
             mail = message(self.user, info[1], info[2])
-            #TODO: Store stuff here.
+            self.sack.storemsg(mail)
             msg = "Storing message for " + info[1]
+            self.sack.writeall()
             return self.bot.sendmsg(self.channel, msg)
+        if (self.text.find("!getmessages") == 0):
+            requester = re.search('~(.*)@', self.user).group(1)
+            msgs = self.sack.retrievemsgs(requester)
+            output = ""
+            for line in msgs:
+                output += self.bot.sendmsg(requester, line)
+            return output
         if (self.text.find("!status") == 0):
             info = str.split(self.text, ' ', 1)
             msg = "I should really get around to watching " + info[1]

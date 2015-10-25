@@ -1,8 +1,9 @@
+import re
 from datetime import datetime
 
 class message:
     def __init__ (self, src, dest, body):
-        self.src = src
+        self.src = re.search('~(.*)@', src).group(1)
         self.dest = dest
         self.body = body
         self.timestamp = datetime.now()

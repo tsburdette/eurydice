@@ -3,6 +3,7 @@ import socket
 import time
 import sys
 import Queue
+import pdb
 
 from skeleton import skeleton
 from dialogue import dialogue
@@ -19,7 +20,6 @@ sQueue.put(bot.sendnick())
 #sQueue.put(bot.joinchan("#orpheus", "transmigrationofsouls"))
 
 readbuffer = ""
-
 while True:
     readbuffer = sock.recv(2048)
     temp = str.split(str.strip(readbuffer), "\r\n")
@@ -42,3 +42,4 @@ while True:
         tx = sQueue.get()
         print ">> " + tx
         sock.send(tx)
+    
