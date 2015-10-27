@@ -4,7 +4,7 @@ This is an IRC bot written in python. It's really just for me to get a feel for 
 
 ## TODO
 
-- Clean up everything. Shit's a mess.
+- Clean up dialogue.py. Shit's a mess.
 - Add functionality for 
   - project status
   - notifications when a project is at another person
@@ -13,7 +13,6 @@ This is an IRC bot written in python. It's really just for me to get a feel for 
 
 ## Mailbox Organization
 
-- !tell <user> message
 - TODO:
     - timezone parsing. Apparently there's a ctcp command for it.
     - let users know when they have mail

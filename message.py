@@ -2,10 +2,11 @@ import re
 from datetime import datetime
 
 class message:
-    def __init__ (self, src, dest, body):
-        self.src = re.search('~(.*)@', src).group(1)
-        self.dest = dest
-        self.body = body
+    def __init__ (self, parser):
+        self.src = parser.nick
+        self.dest = parser.dest
+        self.body = parser.appendedText
+        # TODO: CTCP command to get sender's current time.
         self.timestamp = datetime.now()
 
     def __str__(self):

@@ -34,4 +34,5 @@ class skeleton:
         
     def sendpass (self, password):
         return "PRIVMSG NickServ IDENTIFY %s\r\n" % password
-
+    
+#    def checkmail (self, mailbag):

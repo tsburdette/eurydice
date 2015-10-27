@@ -7,13 +7,13 @@ class dialogue:
     cmds = [ "tell", "status", "help", "join", "part" ]
     sack = mailbag()
     
-    def __init__ (self, user, channel, text, bot):
-        print text
-        self.user = user
-        self.channel = channel
-        self.text = text
+    def __init__ (self, parser, bot):
+        print parser.text
+        self.user = parser.nick
+        self.channel = parser.dest
+        self.text = parser.appendedText
         self.bot = bot
-        
+
     def respond (self):
         if (self.text.find("!help") == 0):
             info = str.split(self.text, ' ', 1)
